@@ -1,7 +1,7 @@
 import { Button, Card, List, ListItem, ListItemButton } from "@mui/joy";
 import { server } from "../../wailsjs/go/models";
 import { LogError } from "../../wailsjs/runtime/runtime";
-import { IconPlus } from "@tabler/icons-react";
+import {IconFileImport, IconPlus} from "@tabler/icons-react";
 
 enum ServerListType {
   CARD,
@@ -14,10 +14,11 @@ type Props = {
   setActiveServer: React.Dispatch<React.SetStateAction<number | undefined>>;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleCreateNewServerClicked: () => void;
+  handleImportServerClicked: () => void;
 }
 
 
-export const ServerList = ({serverListType, servers, setActiveServer, setDrawerOpen, handleCreateNewServerClicked}:Props) => {
+export const ServerList = ({serverListType, servers, setActiveServer, setDrawerOpen, handleCreateNewServerClicked, handleImportServerClicked}:Props) => {
   return (
     <>
         <List className={'flex flex-row flex-wrap items-start'}>
@@ -64,7 +65,12 @@ export const ServerList = ({serverListType, servers, setActiveServer, setDrawerO
             )
         }
         </List>
-        {serverListType === ServerListType.CARD ? <Button className={'ml-[10px]'} onClick={() => handleCreateNewServerClicked()}><IconPlus/> Create new server</Button> : <></>}
+        {serverListType === ServerListType.CARD ?
+            <div>
+                <Button className={'ml-[10px]'} onClick={() => handleCreateNewServerClicked()}><IconPlus/> Create new server</Button>
+                <Button className={'ml-[10px]'} color={"neutral"} onClick={() => handleImportServerClicked()}><IconFileImport/> Import server</Button>
+            </div>
+            : <></>}
     </>
-)
+  )
 };

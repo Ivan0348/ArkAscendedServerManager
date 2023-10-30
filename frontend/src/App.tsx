@@ -13,7 +13,7 @@ import {HomeButton} from "./components/HomeButton";
 import { ServerList } from "./components/ServerList";
 import {useEffect, useState} from "react";
 import {Server} from "./pages/Server";
-import {IconArrowLeft, IconExternalLink, IconPlus, IconRefresh} from "@tabler/icons-react";
+import {IconArrowLeft, IconExternalLink, IconFileImport, IconPlus, IconRefresh} from "@tabler/icons-react";
 import {CreateServer, GetAllServers, GetAllServersFromDir, GetServerDir} from "../wailsjs/go/server/ServerController";
 import {server} from "../wailsjs/go/models";
 import {BrowserOpenURL, EventsOff, EventsOn, LogDebug} from "../wailsjs/runtime";
@@ -28,9 +28,6 @@ function App() {
     const [activeServer, setActiveServer] = useState<number | undefined>(undefined)
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [servers, setServers] = useState<{[key: number]: server.Server}|null>(null);
-
-
-
 
 
     //This gets all the servers but if one server is changed manually it does not update it!
@@ -86,12 +83,16 @@ function App() {
         }).catch((r) => console.error(r))
     }
 
+    const handleImportServerClicked = () => {
+        // TODO: implementation?
+    }
+
     const ServerDrawer = (
             <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} size="md">
                 <ModalClose/>
 
                 <DialogTitle>Servers:</DialogTitle>
-                <ServerList serverListType={ServerListType.LIST} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked} />
+                <ServerList serverListType={ServerListType.LIST} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked}  handleImportServerClicked={handleImportServerClicked}/>
                 <Divider></Divider>
                 <DialogActions>
                     <List>
@@ -101,9 +102,18 @@ function App() {
                             <Tooltip title={'Open servers folder'}><IconButton onClick={() => {GetServerDir().then((dir: string) => BrowserOpenURL("file:///" + dir))}}><IconExternalLink/></IconButton></Tooltip>
                         </ListItem>
                         <ListItem>
-                            <ListItemButton onClick={handleCreateNewServerClicked}>
-                                <IconPlus/> Create new server
-                            </ListItemButton>
+                            <List>
+                                <ListItem>
+                                    <ListItemButton onClick={handleCreateNewServerClicked}>
+                                        <IconPlus/> Create new server
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemButton onClick={handleImportServerClicked}>
+                                        <IconFileImport/> Import server
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
                         </ListItem>
                     </List>
                 </DialogActions>
@@ -118,7 +128,7 @@ function App() {
             mainUi = (
                 <div className={'row-span-5 m-5'}>
                     <h2>Select a server:</h2>
-                    <ServerList serverListType={ServerListType.CARD} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked} />
+                    <ServerList serverListType={ServerListType.CARD} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked}  handleImportServerClicked={handleImportServerClicked}/>
                 </div>
             )
         }
@@ -126,7 +136,8 @@ function App() {
             mainUi = (
                 <div className={'row-span-5 m-5'}>
                     <h2>You have no servers yet!</h2>
-                    <Button onClick={() => handleCreateNewServerClicked()}><IconPlus/> Create new server</Button>
+                    <Button onClick={() => handleCreateNewServerClicked()} className={'mr-[10px]'}><IconPlus/> Create new server</Button>
+                    <Button onClick={() => handleImportServerClicked()} className={'ml-[10px]'}><IconFileImport/>Import a server</Button>
                 </div>
             )
         }
