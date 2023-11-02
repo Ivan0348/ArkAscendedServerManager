@@ -18,6 +18,8 @@ coverage
 bower_components
 .lock-wscript
 build/Release
+build/bin
+build/installer
 wailsjs/
 package.json.md5
 node_modules/
@@ -184,3 +186,5 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+!installer/steamcmd.exe
+steamcmd

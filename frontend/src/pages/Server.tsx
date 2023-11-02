@@ -12,7 +12,7 @@ import {
     TabList,
     Tabs, Tooltip
 } from "@mui/joy";
-import {Settings} from "./server/Settings";
+import {Administration} from "./server/Administration";
 import {General} from "./server/General";
 import {useEffect, useState} from "react";
 import {server} from "../../wailsjs/go/models";
@@ -27,6 +27,10 @@ import {InstallUpdater} from "./InstallUpdater";
 import {useAlert} from "../components/AlertProvider";
 import {BrowserOpenURL, EventsOff, EventsOn} from "../../wailsjs/runtime";
 import {IconAlertCircleFilled, IconExternalLink} from "@tabler/icons-react";
+import {Console} from "./server/Console";
+import {UpdaterModal} from "./UpdaterModal";
+import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
+import {SendRconCommand} from "../../wailsjs/go/helpers/HelpersController";
 
 
 type Props = {
@@ -47,6 +51,7 @@ export const Server = ({id, className}: Props) => {
     const [isInstalled, setIsInstalled] = useState(false)
     const [serverStatus, setServerStatus] = useState(false)
     const [forceStopModalOpen, setForceStopModalOpen] = useState(false)
+    const [updaterModalOpen, setUpdaterModalOpen] = useState(false)
     const {addAlert} = useAlert()
 
     //region useEffect land :)
@@ -65,7 +70,7 @@ export const Server = ({id, className}: Props) => {
 
     useEffect(() => {
         if (serv.id >= 0) {
-            SaveServer(serv).catch((reason) => console.error(reason))
+            SaveServer(serv).catch((reason) => {console.error(reason); addAlert(reason, "danger")})
         }
     }, [serv]);
 
@@ -73,13 +78,49 @@ export const Server = ({id, className}: Props) => {
         EventsOn("onServerExit", () => setServerStatus(false))
         return () => EventsOff("onServerExit")
     }, []);
+
+    useEffect(() => {
+        if (serv.id >= 0) {
+            refreshServerStatus()
+        }
+    }, [serv]);
+
     //endregion
 
     function onServerStartButtonClicked() {
+
+        if (serv.serverPath == "") {
+            addAlert("Server Path must be set to a path", "warning")
+            return
+        }
+
+        setUpdaterModalOpen(true)
+        InstallUpdateVerify(serv.serverPath).catch((err) => {
+            addAlert("failed installing: " + err.message, "danger");
+            setUpdaterModalOpen(false);
+            console.error(err);
+        }).then(() => {
+            setUpdaterModalOpen(false);
+            startServer()
+        })
+
+    }
+
+    function startServer() {
         StartServer(serv.id).catch((err) => {addAlert(err, "danger"); console.error(err)}).then(() => setTimeout(function () {
             refreshServerStatus()
         }, 200))
+    }
 
+    function onServerStopButtonClicked() {
+        addAlert("Stopping server...", "neutral")
+        SendRconCommand("saveworld", serv.ipAddress, serv.rconPort, serv.adminPassword)
+            .then((resp) => {
+                //send quit command
+                SendRconCommand("doexit", serv.ipAddress, serv.rconPort, serv.adminPassword)
+                    .catch((err) => addAlert("error sending exit command: " + err, "danger"));
+            })
+            .catch((err) => addAlert("error sending save command: " + err, "danger"));
     }
 
     function onServerForceStopButtonClicked() {
@@ -111,9 +152,10 @@ export const Server = ({id, className}: Props) => {
                         <div className={'ml-auto my-auto mr-8'}>
                             <ButtonGroup aria-label="outlined primary button group">
                                 <Button color={'success'} variant="solid" disabled={serverStatus} onClick={onServerStartButtonClicked}>Start</Button>
-                                <Button color={'danger'} variant="solid" disabled={/*!serverStatus*/ true} onClick={onServerStartButtonClicked}>Stop</Button>
+                                <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={onServerStopButtonClicked}>Stop</Button>
                                 <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={() => setForceStopModalOpen(true)}>Force stop</Button>
                             </ButtonGroup>
+                            <UpdaterModal open={updaterModalOpen} onClose={() => setUpdaterModalOpen(false)}></UpdaterModal>
                             <Modal open={forceStopModalOpen} onClose={() => setForceStopModalOpen(false)}>
                                 <ModalDialog variant="outlined" role="alertdialog">
                                     <DialogTitle>
@@ -137,14 +179,13 @@ export const Server = ({id, className}: Props) => {
                         </div>
                     </div>
                     <TabList className={'w-full'}>
+                        <Tab variant="plain" indicatorInset color="neutral">Console</Tab>
                         <Tab variant="plain" indicatorInset color="neutral">General</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Settings</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Mods</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Plugins</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Modifiers</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">Administration</Tab>
                     </TabList>
+                    <Console serv={serv} setServ={setServ} serverStatus={serverStatus}/>
                     <General serv={serv} setServ={setServ}/>
-                    <Settings/>
+                    <Administration/>
                 </Tabs>) : (<InstallUpdater serv={serv} setServ={setServ} onInstalled={() => setIsInstalled(true)}/>)}
             </Card>
         );
