@@ -1,7 +1,7 @@
 import {
     Button,
     ButtonGroup,
-    Card, DialogActions,
+    Card, Checkbox, DialogActions,
     DialogContent,
     DialogTitle,
     Divider, IconButton,
@@ -31,6 +31,7 @@ import {Console} from "./server/Console";
 import {UpdaterModal} from "./UpdaterModal";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
 import {SendRconCommand} from "../../wailsjs/go/helpers/HelpersController";
+import {Settings} from "./server/Settings";
 
 
 type Props = {
@@ -94,15 +95,19 @@ export const Server = ({id, className}: Props) => {
             return
         }
 
-        setUpdaterModalOpen(true)
-        InstallUpdateVerify(serv.serverPath).catch((err) => {
-            addAlert("failed installing: " + err.message, "danger");
-            setUpdaterModalOpen(false);
-            console.error(err);
-        }).then(() => {
-            setUpdaterModalOpen(false);
+        if (serv.disableUpdateOnStart) {
             startServer()
-        })
+        } else {
+            setUpdaterModalOpen(true)
+            InstallUpdateVerify(serv.serverPath).catch((err) => {
+                addAlert("failed installing: " + err.message, "danger");
+                setUpdaterModalOpen(false);
+                console.error(err);
+            }).then(() => {
+                setUpdaterModalOpen(false);
+                startServer()
+            })
+        }
 
     }
 
@@ -155,7 +160,8 @@ export const Server = ({id, className}: Props) => {
                                 <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={onServerStopButtonClicked}>Stop</Button>
                                 <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={() => setForceStopModalOpen(true)}>Force stop</Button>
                             </ButtonGroup>
-                            <UpdaterModal open={updaterModalOpen} onClose={() => setUpdaterModalOpen(false)}></UpdaterModal>
+
+                            <UpdaterModal open={updaterModalOpen}  onCompleted={() => setUpdaterModalOpen(false)}></UpdaterModal>
                             <Modal open={forceStopModalOpen} onClose={() => setForceStopModalOpen(false)}>
                                 <ModalDialog variant="outlined" role="alertdialog">
                                     <DialogTitle>
@@ -180,12 +186,14 @@ export const Server = ({id, className}: Props) => {
                     </div>
                     <TabList className={'w-full'}>
                         <Tab variant="plain" indicatorInset color="neutral">Console</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">General</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">General Settings</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">Server Settings</Tab>
                         <Tab variant="plain" indicatorInset color="neutral">Administration</Tab>
                     </TabList>
                     <Console serv={serv} setServ={setServ} serverStatus={serverStatus}/>
                     <General serv={serv} setServ={setServ}/>
-                    <Administration/>
+                    <Settings setServ={setServ} serv={serv}></Settings>
+                    <Administration serv={serv} setServ={setServ} onServerFilesDeleted={() => CheckServerInstalled(serv.id).then((val) => setIsInstalled(val)).catch((reason) => console.error(reason))}/>
                 </Tabs>) : (<InstallUpdater serv={serv} setServ={setServ} onInstalled={() => setIsInstalled(true)}/>)}
             </Card>
         );

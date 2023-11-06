@@ -6,9 +6,9 @@ import (
 	"github.com/keybase/go-ps"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os/exec"
-
 	"path"
 	"strconv"
+	"strings"
 )
 
 // Server contains the server "stuff"
@@ -20,7 +20,17 @@ type Server struct {
 	Command *exec.Cmd `json:"-"`
 	ctx     context.Context
 
+	//PREFERENCES
+
+	DisableUpdateOnStart bool `json:"disableUpdateOnStart"`
+	RestartOnServerQuit  bool `json:"restartOnServerQuit"`
+
 	//CONFIGURATION VARIABLES
+
+	ExtraDashArgs              string `json:"extraDashArgs"`
+	ExtraQuestionmarkArguments string `json:"extraQuestionmarkArguments"`
+
+	Mods string `json:"mods"`
 
 	// Id is the id of the server
 	Id int `json:"id"`
@@ -69,7 +79,10 @@ func (s *Server) Start() error {
 	if s.IsServerRunning() {
 		return fmt.Errorf("error starting server: server is already running")
 	} else {
-		s.Command = exec.Command(path.Join(s.ServerPath, "ShooterGame\\Binaries\\Win64\\ArkAscendedServer.exe"), s.CreateArguments())
+
+		args := s.CreateArguments()
+
+		s.Command = exec.Command(path.Join(s.ServerPath, "ShooterGame\\Binaries\\Win64\\ArkAscendedServer.exe"), args...)
 		err = s.Command.Start()
 		if err != nil {
 			return fmt.Errorf("error starting server: %v", err)
@@ -79,6 +92,19 @@ func (s *Server) Start() error {
 			_ = s.Command.Wait()
 
 			runtime.EventsEmit(s.ctx, "onServerExit", s.Id)
+
+			/*//restart server on crash
+			if err != nil && s.RestartOnServerQuit {
+				code := s.Command.ProcessState.ExitCode()
+				time.Sleep(2 * time.Second)
+				if code != 0 {
+					err := s.Start()
+					if err != nil {
+						runtime.EventsEmit(s.ctx, "onRestartServerFailed", err)
+					}
+				}
+			}*/
+
 		}()
 	}
 
@@ -140,15 +166,38 @@ func (s *Server) IsServerRunning() bool {
 	}
 }
 
-func (s *Server) CreateArguments() string {
-	basePrompt := s.ServerMap + "?listen"
-	basePrompt += "?MultiHome=" + s.IpAddress
-	basePrompt += "?SessionName=" + s.ServerName
-	basePrompt += "?Port=" + strconv.Itoa(s.ServerPort)
-	basePrompt += "?QueryPort=" + strconv.Itoa(s.QueryPort)
-	basePrompt += "?RCONEnabled=true?RCONServerGameLogBuffer=600?RCONPort=" + strconv.Itoa(s.RCONPort)
-	basePrompt += "?MaxPlayers=" + strconv.Itoa(s.MaxPlayers)
-	basePrompt += "?ServerAdminPassword=" + s.AdminPassword
+// returns questionamrk arguments for the server and dash arguments for the server
+func (s *Server) CreateArguments() []string {
+	var args []string = []string{}
 
-	return basePrompt
+	args = append(args, s.ServerMap+"?listen")
+	args = append(args, "?MultiHome="+s.IpAddress)
+	args = append(args, "?SessionName="+s.ServerName)
+	args = append(args, "?Port="+strconv.Itoa(s.ServerPort))
+	args = append(args, "?QueryPort="+strconv.Itoa(s.QueryPort))
+	args = append(args, "?RCONEnabled=true?RCONServerGameLogBuffer=600?RCONPort="+strconv.Itoa(s.RCONPort))
+	args = append(args, "?MaxPlayers="+strconv.Itoa(s.MaxPlayers))
+	if s.ServerPassword != "" {
+		args = append(args, "?ServerPassword="+s.ServerPassword)
+	}
+	if s.SpectatorPassword != "" {
+		args = append(args, "?SpectatorPassword="+s.SpectatorPassword)
+	}
+
+	args = append(args, s.ExtraQuestionmarkArguments)
+
+	//TODO move AdminPassword to ini
+	args = append(args, "?ServerAdminPassword="+s.AdminPassword)
+
+	if s.Mods != "" {
+		args = append(args, "-mods="+s.Mods)
+	}
+
+	extraArgs := strings.Split(s.ExtraDashArgs, " ")
+
+	for _, arg := range extraArgs {
+		args = append(args, arg)
+	}
+
+	return args
 }

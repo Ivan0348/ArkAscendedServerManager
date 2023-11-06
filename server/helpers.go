@@ -41,7 +41,16 @@ func generateNewDefaultServer(id int) Server {
 	}*/
 
 	return Server{
-		Id:          id,
+		Id: id,
+
+		DisableUpdateOnStart: false,
+		RestartOnServerQuit:  true,
+
+		ExtraQuestionmarkArguments: "",
+		ExtraDashArgs:              "",
+
+		Mods: "",
+
 		ServerAlias: "Server " + strconv.Itoa(id),
 
 		ServerName: "A server managed by ArkAscendedServerManager",
