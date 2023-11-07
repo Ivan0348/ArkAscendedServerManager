@@ -1,0 +1,16 @@
+{
+  "server": {
+    "startServerButton": "Start",
+    "stopServerButton": "Stop",
+    "forceStopServerButton": "Force stop",
+    "forceStopDialogTitle": "Confirmation",
+    "forceStopDialogContent": "Are you sure you want to forcefully stop the server? No save action will be performed!",
+    "forceStopDialogActionButton": "Force stop",
+    "forceStopDialogCancelButton": "Cancel",
+    "tabListConsole": "Console",
+    "tabListGeneralSettings": "General Settings",
+    "tabListServerSettings": "Server Settings",
+    "tabListAdministration": "Administration",
+    "noServerFoundSelected": "No server found/selected"
+  }
+}

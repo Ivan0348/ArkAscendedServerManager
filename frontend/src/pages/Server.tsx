@@ -32,6 +32,7 @@ import {UpdaterModal} from "./UpdaterModal";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
 import {SendRconCommand} from "../../wailsjs/go/helpers/HelpersController";
 import {Settings} from "./server/Settings";
+import { useTranslation, Trans } from 'react-i18next';
 
 
 type Props = {
@@ -54,6 +55,7 @@ export const Server = ({id, className}: Props) => {
     const [forceStopModalOpen, setForceStopModalOpen] = useState(false)
     const [updaterModalOpen, setUpdaterModalOpen] = useState(false)
     const {addAlert} = useAlert()
+    const { t } = useTranslation();
 
     //region useEffect land :)
 
@@ -156,9 +158,9 @@ export const Server = ({id, className}: Props) => {
 
                         <div className={'ml-auto my-auto mr-8'}>
                             <ButtonGroup aria-label="outlined primary button group">
-                                <Button color={'success'} variant="solid" disabled={serverStatus} onClick={onServerStartButtonClicked}>Start</Button>
-                                <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={onServerStopButtonClicked}>Stop</Button>
-                                <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={() => setForceStopModalOpen(true)}>Force stop</Button>
+                                <Button color={'success'} variant="solid" disabled={serverStatus} onClick={onServerStartButtonClicked}>{t('server.startServerButton')}</Button>
+                                <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={onServerStopButtonClicked}>{t('server.stopServerButton')}</Button>
+                                <Button color={'danger'} variant="solid" disabled={!serverStatus} onClick={() => setForceStopModalOpen(true)}>{t('server.forceStopServerButton')}</Button>
                             </ButtonGroup>
 
                             <UpdaterModal open={updaterModalOpen}  onCompleted={() => setUpdaterModalOpen(false)}></UpdaterModal>

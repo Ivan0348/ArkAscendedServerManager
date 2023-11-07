@@ -18,6 +18,7 @@ import {CreateServer, GetAllServers, GetAllServersFromDir, GetServerDir} from ".
 import {server} from "../wailsjs/go/models";
 import {BrowserOpenURL, EventsOff, EventsOn, LogDebug} from "../wailsjs/runtime";
 import {AlertProvider} from "./components/AlertProvider";
+import {LanguageSwitcher} from "./components/LanguageSwitcher";
 
 enum ServerListType {
     CARD,
@@ -145,6 +146,7 @@ function App() {
                         </Button>
                     </div>
                     <div className={'ml-auto my-auto mr-8 gap-2 flex'}>
+                        <LanguageSwitcher/>
                         <ThemeSwitcher/>
                         <HomeButton setServ={setActiveServer}/>
                     </div>

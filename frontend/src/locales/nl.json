@@ -1,0 +1,16 @@
+{
+  "server": {
+    "startServerButton": "Start",
+    "stopServerButton": "Stop",
+    "forceStopServerButton": "Stop forceren",
+    "forceStopDialogTitle": "Bevestiging",
+    "forceStopDialogContent": "Weet je zeker dat je de server geforceerd wilt stoppen? Er wordt geen opslagactie uitgevoerd!",
+    "forceStopDialogActionButton": "Stop forceren",
+    "forceStopDialogCancelButton": "Annuleer",
+    "tabListConsole": "Console",
+    "tabListGeneralSettings": "Alegemene Instellingen",
+    "tabListServerSettings": "Server Instellingen",
+    "tabListAdministration": "Administratie",
+    "noServerFoundSelected": "Geen server gevonden/geselecteerd"
+  }
+}
