@@ -79,10 +79,7 @@ func (s *Server) Start() error {
 	if s.IsServerRunning() {
 		return fmt.Errorf("error starting server: server is already running")
 	} else {
-
-		args := s.CreateArguments()
-
-		s.Command = exec.Command(path.Join(s.ServerPath, "ShooterGame\\Binaries\\Win64\\ArkAscendedServer.exe"), args...)
+		s.Command = s.CreateServerCmd()
 		err = s.Command.Start()
 		if err != nil {
 			return fmt.Errorf("error starting server: %v", err)
@@ -109,6 +106,12 @@ func (s *Server) Start() error {
 	}
 
 	return nil
+}
+
+// CreateServerCmd returns the command to start the server
+func (s *Server) CreateServerCmd() *exec.Cmd {
+	args := s.CreateArguments()
+	return exec.Command(path.Join(s.ServerPath, "ShooterGame\\Binaries\\Win64\\ArkAscendedServer.exe"), args...)
 }
 
 // ForceStop forces the server to stop "quitting/killing the process"
@@ -170,9 +173,8 @@ func (s *Server) IsServerRunning() bool {
 func (s *Server) CreateArguments() []string {
 	var args []string = []string{}
 
-	args = append(args, s.ServerMap+"?listen")
+	args = append(args, s.ServerMap+"?listen"+"?SessionName="+s.ServerName)
 	args = append(args, "?MultiHome="+s.IpAddress)
-	args = append(args, "?SessionName="+s.ServerName)
 	args = append(args, "?Port="+strconv.Itoa(s.ServerPort))
 	args = append(args, "?QueryPort="+strconv.Itoa(s.QueryPort))
 	args = append(args, "?RCONEnabled=true?RCONServerGameLogBuffer=600?RCONPort="+strconv.Itoa(s.RCONPort))
@@ -192,6 +194,7 @@ func (s *Server) CreateArguments() []string {
 	if s.Mods != "" {
 		args = append(args, "-mods="+s.Mods)
 	}
+	args = append(args, "-WinLiveMaxPlayers="+strconv.Itoa(s.MaxPlayers))
 
 	extraArgs := strings.Split(s.ExtraDashArgs, " ")
 
