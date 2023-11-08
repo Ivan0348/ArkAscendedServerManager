@@ -51,8 +51,8 @@
   },
 
 
-  "updateModal": {
-    "updateModalModal": {
+  "updaterModal": {
+    "updaterModalModal": {
       "title": "Updating Server...",
       "description": "The server will start automatically after the update",
       "Status": "Status:",

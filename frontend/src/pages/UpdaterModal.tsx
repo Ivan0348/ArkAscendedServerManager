@@ -34,17 +34,17 @@ export function UpdaterModal({onCompleted, open, onClose}: Props) {
         <Modal open={open} onClose={onClose} >
             <ModalDialog>
                 <Typography level="title-md">
-                    {t('updateModal.updateModalModal.title')}
+                    {t('updaterModal.updaterModalModal.title')}
                 </Typography>
                 <Typography level="body-sm" >
-                    {t('updateModal.updateModalModal.description')}
+                    {t('updaterModal.updaterModalModal.description')}
                 </Typography>
                 <Divider className={'mx-2'}/>
                 <Typography fontWeight={700} level="title-md">
-                    {t('updateModal.updateModalModal.Status')} {action}
+                    {t('updaterModal.updaterModalModal.Status')} {action}
                 </Typography>
                 <Typography fontWeight={700} level="title-md">
-                    {t('updateModal.updateModalModal.Progress')}
+                    {t('updaterModal.updaterModalModal.Progress')}
                 </Typography>
                 <div className={'w-1/2 mt-4'}>
                     <LinearProgress determinate value={progress} />
