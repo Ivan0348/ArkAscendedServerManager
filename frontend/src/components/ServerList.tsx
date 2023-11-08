@@ -2,6 +2,7 @@ import { Button, Card, List, ListItem, ListItemButton } from "@mui/joy";
 import { server } from "../../wailsjs/go/models";
 import { LogError } from "../../wailsjs/runtime/runtime";
 import { IconPlus } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
 
 enum ServerListType {
   CARD,
@@ -18,13 +19,14 @@ type Props = {
 
 
 export const ServerList = ({serverListType, servers, setActiveServer, setDrawerOpen, handleCreateNewServerClicked}:Props) => {
+  const { t } = useTranslation();
   return (
     <>
         <List className={'flex flex-row flex-wrap items-start'}>
         {
             (servers === null) ? (
                 <ListItem>
-                    No servers found or failed to find servers
+                  {t('serverList.noServersFound')}
                 </ListItem>
             ) : (
                 Object.keys(servers).map((key) => {
@@ -39,7 +41,7 @@ export const ServerList = ({serverListType, servers, setActiveServer, setDrawerO
                         return (
                             <ListItem key={index}>
                                 <ListItemButton onClick={() => {setActiveServer(index); setDrawerOpen(false)}}>
-                                    {index}: {server.serverAlias? server.serverAlias : "Unnamed Server"}
+                                    {index}: {server.serverAlias? server.serverAlias : t('serverList.unnamedServer')}
                                 </ListItemButton>
                             </ListItem>
                         );
@@ -50,7 +52,7 @@ export const ServerList = ({serverListType, servers, setActiveServer, setDrawerO
                             <ListItem className={'w-[calc(100%_*_(1/4))] p-[10px]'} key={index}>
                                 <Card className={'cursor-pointer w-full'} onClick={() => {setActiveServer(index)}}>
                                     <div className={'px-2'}>
-                                        <div className={'text-xl font-bold break-all'}>{server.serverAlias? server.serverAlias : "Unnamed Server"}</div>
+                                        <div className={'text-xl font-bold break-all'}>{server.serverAlias? server.serverAlias : t('serverList.unnamedServer')}</div>
                                         <div className={'text-lg mb-2'}>{server.ipAddress}:{server.queryPort}</div>
 
                                         <div>Players: 0/40</div> {/* this still needs to be implemented! */}
@@ -64,7 +66,7 @@ export const ServerList = ({serverListType, servers, setActiveServer, setDrawerO
             )
         }
         </List>
-        {serverListType === ServerListType.CARD ? <Button className={'ml-[10px]'} onClick={() => handleCreateNewServerClicked()}><IconPlus/> Create new server</Button> : <></>}
+        {serverListType === ServerListType.CARD ? <Button className={'ml-[10px]'} onClick={() => handleCreateNewServerClicked()}><IconPlus/>{t('serverList.createNewServer')}</Button> : <></>}
     </>
 )
 };

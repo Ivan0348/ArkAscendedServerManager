@@ -19,5 +19,11 @@
       "errorSave": "Error sending save command:",
       "errorExit": "Error sending exit command:"
     }
+  },
+  "serverList": {
+    "noServersFound": "No servers found or failed to find servers",
+    "unnamedServer": "Unnamed Server",
+    "createNewServer": "Create new server",
+    "importServer": "TBD"
   }
 }

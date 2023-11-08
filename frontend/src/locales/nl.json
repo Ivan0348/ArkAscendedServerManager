@@ -19,5 +19,11 @@
       "errorSave": "Fout bij het opslaan van de server:",
       "errorExit": "Fout bij het sluiten van de server:"
     }
+  },
+  "serverList": {
+    "noServersFound": "Geen servers gevonden",
+    "unnamedServer": "Naamloze server",
+    "createNewServer": "Nieuwe server maken",
+    "importServer": "TBD"
   }
 }
