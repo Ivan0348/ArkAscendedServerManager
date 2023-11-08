@@ -1,7 +1,7 @@
 import {
     Button,
     ButtonGroup,
-    Card, Checkbox, DialogActions,
+    Card, DialogActions,
     DialogContent,
     DialogTitle,
     Divider, IconButton,
@@ -32,7 +32,7 @@ import {UpdaterModal} from "./UpdaterModal";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
 import {SendRconCommand} from "../../wailsjs/go/helpers/HelpersController";
 import {Settings} from "./server/Settings";
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 
 type Props = {
@@ -93,7 +93,7 @@ export const Server = ({id, className}: Props) => {
     function onServerStartButtonClicked() {
 
         if (serv.serverPath == "") {
-            addAlert("Server Path must be set to a path", "warning")
+            addAlert(t('server.alert.noServerPath'), "warning")
             return
         }
 
@@ -102,7 +102,7 @@ export const Server = ({id, className}: Props) => {
         } else {
             setUpdaterModalOpen(true)
             InstallUpdateVerify(serv.serverPath).catch((err) => {
-                addAlert("failed installing: " + err.message, "danger");
+                addAlert(t('server.alert.failedUpdateInstall') + " " + err.message, "danger");
                 setUpdaterModalOpen(false);
                 console.error(err);
             }).then(() => {
@@ -120,14 +120,14 @@ export const Server = ({id, className}: Props) => {
     }
 
     function onServerStopButtonClicked() {
-        addAlert("Stopping server...", "neutral")
+        addAlert(t('server.alert.stopServer'), "neutral")
         SendRconCommand("saveworld", serv.ipAddress, serv.rconPort, serv.adminPassword)
-            .then((resp) => {
+            .then(() => {
                 //send quit command
                 SendRconCommand("doexit", serv.ipAddress, serv.rconPort, serv.adminPassword)
-                    .catch((err) => addAlert("error sending exit command: " + err, "danger"));
+                    .catch((err) => addAlert(t('server.alert.errorExit')+ " " + err, "danger"));
             })
-            .catch((err) => addAlert("error sending save command: " + err, "danger"));
+            .catch((err) => addAlert(t('server.alert.errorSave') + " " + err, "danger"));
     }
 
     function onServerForceStopButtonClicked() {
@@ -168,18 +168,18 @@ export const Server = ({id, className}: Props) => {
                                 <ModalDialog variant="outlined" role="alertdialog">
                                     <DialogTitle>
                                         <IconAlertCircleFilled/>
-                                        Confirmation
+                                        {t('server.forceStopDialogTitle')}
                                     </DialogTitle>
                                     <Divider />
                                     <DialogContent>
-                                        Are you sure you want to forcefully stop the server? No save action will be performed!
+                                        <p>{t('server.forceStopDialogContent')}</p>
                                     </DialogContent>
                                     <DialogActions>
                                         <Button variant="solid" color="danger" onClick={() => {setForceStopModalOpen(false); onServerForceStopButtonClicked()}}>
-                                            Force stop
+                                            {t('server.forceStopDialogActionButton')}
                                         </Button>
                                         <Button variant="plain" color="neutral" onClick={() => setForceStopModalOpen(false)}>
-                                            Cancel
+                                            {t('server.forceStopDialogCancelButton')}
                                         </Button>
                                     </DialogActions>
                                 </ModalDialog>
@@ -187,10 +187,10 @@ export const Server = ({id, className}: Props) => {
                         </div>
                     </div>
                     <TabList className={'w-full'}>
-                        <Tab variant="plain" indicatorInset color="neutral">Console</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">General Settings</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Server Settings</Tab>
-                        <Tab variant="plain" indicatorInset color="neutral">Administration</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">{t('server.tabListConsole')}</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">{t('server.tabListGeneralSettings')} </Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">{t('server.tabListServerSettings')}</Tab>
+                        <Tab variant="plain" indicatorInset color="neutral">{t('server.tabListAdministration')}</Tab>
                     </TabList>
                     <Console serv={serv} setServ={setServ} serverStatus={serverStatus}/>
                     <General serv={serv} setServ={setServ}/>
@@ -204,7 +204,7 @@ export const Server = ({id, className}: Props) => {
             <Card className={className}>
                 <Tabs size="sm" className={'flex h-full w-full overflow-y-auto'}>
                     <div className={'h-16 flex w-full'}>
-                        <p className={'text-lg font-bold ml-8'}>No server found/selected</p>
+                        <p className={'text-lg font-bold ml-8'}>{t('server.noServerFoundSelected')}</p>
                     </div>
                 </Tabs>
             </Card>

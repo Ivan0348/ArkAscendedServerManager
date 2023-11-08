@@ -11,6 +11,13 @@
     "tabListGeneralSettings": "General Settings",
     "tabListServerSettings": "Server Settings",
     "tabListAdministration": "Administration",
-    "noServerFoundSelected": "No server found/selected"
+    "noServerFoundSelected": "No server found/selected",
+    "alert": {
+      "noServerPath": "Server Path must be set to a path",
+      "failedUpdateInstall": "failed installing:",
+      "stopServer": "Stopping server...",
+      "errorSave": "Error sending save command:",
+      "errorExit": "Error sending exit command:"
+    }
   }
 }
