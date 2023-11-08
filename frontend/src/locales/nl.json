@@ -2,7 +2,7 @@
   "server": {
     "startServerButton": "Start",
     "stopServerButton": "Stop",
-    "forceStopServerButton": "Stop forceren",
+    "forceStopServerButton": "Forceer stop",
     "forceStopDialogTitle": "Bevestiging",
     "forceStopDialogContent": "Weet je zeker dat je de server geforceerd wilt stoppen? De server wordt niet opgeslagen!",
     "forceStopDialogActionButton": "Stop forceren",
