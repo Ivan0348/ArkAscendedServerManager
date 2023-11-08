@@ -14,6 +14,10 @@ export const LanguageSwitcher = () => {
     const languages : Language = {
         en: { nativeName: 'English' },
         nl: { nativeName: 'Nederlands' },
+        da: { nativeName: 'Dansk' },
+        es: { nativeName: 'Español' },
+        fr: { nativeName: 'Français' },
+        zh: { nativeName: '中国人' },
     };
 
     const handleChange = (
