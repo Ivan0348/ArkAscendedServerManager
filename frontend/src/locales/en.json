@@ -3,10 +3,12 @@
     "startServerButton": "Start",
     "stopServerButton": "Stop",
     "forceStopServerButton": "Force stop",
-    "forceStopDialogTitle": "Confirmation",
-    "forceStopDialogContent": "Are you sure you want to forcefully stop the server? No save action will be performed!",
-    "forceStopDialogActionButton": "Force stop",
-    "forceStopDialogCancelButton": "Cancel",
+    "forceStopModal": {
+      "forceStopDialogTitle": "Confirmation",
+      "forceStopDialogContent": "Are you sure you want to forcefully stop the server? No save action will be performed!",
+      "forceStopDialogActionButton": "Force stop",
+      "forceStopDialogCancelButton": "Cancel"
+    },
     "tabListConsole": "Console",
     "tabListGeneralSettings": "General Settings",
     "tabListServerSettings": "Server Settings",
@@ -20,10 +22,31 @@
       "errorExit": "Error sending exit command:"
     }
   },
+
+
   "serverList": {
     "noServersFound": "No servers found or failed to find servers",
     "unnamedServer": "Unnamed Server",
     "createNewServer": "Create new server",
     "importServer": "TBD"
+  },
+
+
+  "installUpdater": {
+    "installUpdateModal": {
+      "title": "Install/Update Server",
+      "status": "Status:",
+      "progress": "Progress:",
+      "backActionButton": "Go Back"
+    },
+    "installUpdateCard": {
+      "title": "Install Server",
+      "serverPath": "Server Path",
+      "actionButton": "Install Server"
+    },
+    "alert": {
+      "noServerPath": "Server Path must be set to a path",
+      "failedUpdateInstall": "failed installing:"
+    }
   }
 }
