@@ -48,5 +48,15 @@
       "noServerPath": "Serverpad moet worden ingesteld op een pad",
       "failedUpdateInstall": "installatie mislukt:"
     }
+  },
+
+
+  "updateModal": {
+    "updateModalModal": {
+      "title": "Server bijwerken...",
+      "description": "De server start automatisch na de update",
+      "Status": "Status:",
+      "Progress": "Voortgang:"
+    }
   }
 }

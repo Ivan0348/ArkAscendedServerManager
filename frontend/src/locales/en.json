@@ -48,5 +48,15 @@
       "noServerPath": "Server Path must be set to a path",
       "failedUpdateInstall": "failed installing:"
     }
+  },
+
+
+  "updateModal": {
+    "updateModalModal": {
+      "title": "Updating Server...",
+      "description": "The server will start automatically after the update",
+      "Status": "Status:",
+      "Progress": "Progress:"
+    }
   }
 }
