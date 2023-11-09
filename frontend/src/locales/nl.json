@@ -42,7 +42,8 @@
     "installUpdateCard": {
       "title": "Server installeren",
       "serverPath": "Serverpad",
-      "actionButton": "Server installeren"
+      "actionButton": "Server installeren",
+      "cancelButton": "Verwijder profiel"
     },
     "alert": {
       "noServerPath": "Serverpad moet worden ingesteld op een pad",

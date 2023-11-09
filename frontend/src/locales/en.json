@@ -42,7 +42,8 @@
     "installUpdateCard": {
       "title": "Install Server",
       "serverPath": "Server Path",
-      "actionButton": "Install Server"
+      "actionButton": "Install Server",
+      "cancelButton": "Delete profile"
     },
     "alert": {
       "noServerPath": "Server Path must be set to a path",

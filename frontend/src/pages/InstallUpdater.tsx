@@ -93,7 +93,7 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
                 <Input className={'w-1/3'} value={serv.serverPath} required onClick={onServerPathClicked} ></Input>
                 <div className={"text-center"}>
                     <Button endDecorator={<IconDownload/>} onClick={onStartInstallButtonClicked}>{t('installUpdater.installUpdateCard.actionButton')}</Button>
-                    <Button endDecorator={<IconTrash/>} onClick={onCancelButtonClicked} className={"mx-5"} color={"danger"}>Delete profile</Button>
+                    <Button endDecorator={<IconTrash/>} onClick={onCancelButtonClicked} className={"mx-5"} color={"danger"}>{t('installUpdater.installUpdateCard.cancelButton')}</Button>
                 </div>
             </Card>
         </div>

@@ -1,26 +1,30 @@
 import {
-    Alert, AspectRatio,
     Button,
-    Card,
     DialogActions,
     DialogTitle, Divider,
     Drawer, IconButton, List, ListItem,
-    ListItemButton, Modal,
-    ModalClose, ModalDialog, Tooltip, Typography,
+    ListItemButton,
+    ModalClose, Tooltip,
 } from "@mui/joy";
 import {ThemeSwitcher} from "./components/ThemeSwitcher";
 import {HomeButton} from "./components/HomeButton";
+import {InfoModal} from "./components/InfoModal";
 import { ServerList } from "./components/ServerList";
 import React, {useEffect, useState} from "react";
 import {Server} from "./pages/Server";
-import {IconArrowLeft, IconExternalLink, IconHome, IconInfoCircle, IconPlus, IconRefresh} from "@tabler/icons-react";
-import {CreateServer, GetAllServers, GetAllServersFromDir, GetServerDir} from "../wailsjs/go/server/ServerController";
+import {IconArrowLeft, IconExternalLink, IconPlus, IconRefresh} from "@tabler/icons-react";
+import {
+    CreateServer,
+    GetAllServers,
+    GetAllServersFromDir,
+    GetServer,
+    GetServerDir
+} from "../wailsjs/go/server/ServerController";
 import {server} from "../wailsjs/go/models";
 import {BrowserOpenURL, EventsOff, EventsOn, LogDebug} from "../wailsjs/runtime";
 import {AlertProvider} from "./components/AlertProvider";
-import banner from "./assets/AASM_V3_banner2.png"
-import {GetVersion} from "../wailsjs/go/helpers/HelpersController";
 import {LanguageSwitcher} from "./components/LanguageSwitcher";
+import {GetVersion} from "../wailsjs/go/helpers/HelpersController";
 
 enum ServerListType {
     CARD,
@@ -31,11 +35,6 @@ function App() {
     const [activeServer, setActiveServer] = useState<number | undefined>(undefined)
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [servers, setServers] = useState<{[key: number]: server.Server}|null>(null);
-    const [infoModalOpen, setInfoModalOpen] = useState(false);
-    const [appVersion, setAppVersion] = useState("");
-
-
-
 
     //This gets all the servers but if one server is changed manually it does not update it!
     function getServers() {
@@ -71,8 +70,6 @@ function App() {
 
     useEffect(() => {
         getServers()
-        GetVersion().then(version => setAppVersion(version))
-
     }, []);
 
     //events
@@ -82,6 +79,7 @@ function App() {
             EventsOff("serverSaved")
         }
     }, []);
+
 
     const handleCreateNewServerClicked = () => {
         CreateServer(true).then((server) => {
@@ -101,7 +99,6 @@ function App() {
                 <DialogActions>
                     <List>
                         <ListItem>
-
                             <Tooltip title={'Reload servers from disk'}><IconButton  color={'danger'} variant={"solid"}  onClick={() => {getServersFromDir(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
                             <Tooltip title={'Refresh server list from cache'}><IconButton onClick={() => {getServers(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
                             <Tooltip title={'Open servers folder'}><IconButton onClick={() => {GetServerDir().then((dir: string) => BrowserOpenURL("file:///" + dir))}}><IconExternalLink/></IconButton></Tooltip>
@@ -138,9 +135,6 @@ function App() {
         }
     }
 
-
-
-
     return (
         <div className={'min-h-screen max-h-screen overflow-y-auto flex-col flex'}>
             <AlertProvider>
@@ -154,41 +148,7 @@ function App() {
                         <LanguageSwitcher/>
                         <ThemeSwitcher/>
                         <HomeButton setServ={setActiveServer}/>
-                        <IconButton
-                            variant="soft"
-                            color="neutral"
-                            onClick={() => setInfoModalOpen(true)}
-                        >
-                            <IconInfoCircle/>
-                        </IconButton>
-                        <Modal open={infoModalOpen} onClose={() => setInfoModalOpen(false)}>
-                            <ModalDialog>
-                                <ModalClose/>
-                                <AspectRatio minHeight="120px" sx={{margin: 2}} maxHeight="200px">
-                                    <img
-
-                                        src={banner}
-                                        loading="lazy"
-                                        alt=""
-                                    />
-                                </AspectRatio>
-                                <Divider/>
-                                <div className={"p-4"}>
-                                    <Typography level={"title-lg"}>
-                                        Info:
-                                    </Typography>
-                                    <Typography level={"body-sm"} className={"flex-grow"}>
-                                        Version: {appVersion}
-                                    </Typography>
-                                    <div style={{height: 200}}></div>
-                                    <Button color={"neutral"} sx={{margin: 1}} onClick={() => BrowserOpenURL("https://github.com/JensvandeWiel/ArkAscendedServerManager")}>GitHub</Button>
-                                    <Button color={"neutral"} sx={{margin: 1}} onClick={() => BrowserOpenURL("https://discord.gg/RmesnZ8FWf")}>Discord</Button>
-                                    <Button color={"neutral"} sx={{margin: 1}} onClick={() => BrowserOpenURL("https://github.com/sponsors/JensvandeWiel")}>Sponsor me</Button>
-
-
-                                </div>
-                            </ModalDialog>
-                        </Modal>
+                        <InfoModal/>
                     </div>
                 </div>
                 {mainUi}
