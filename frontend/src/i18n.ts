@@ -4,6 +4,10 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import translateEN from "./locales/en.json";
 import translateNL from "./locales/nl.json";
+import translateDA from "./locales/da.json";
+import translateES from "./locales/es.json";
+import translateFR from "./locales/fr.json";
+import translateZH from "./locales/zh.json";
 
 i18n
     .use(Backend)
@@ -26,6 +30,18 @@ i18n
             },
             nl: {
                 translation: translateNL
+            },
+            da: {
+                translation: translateDA
+            },
+            es: {
+                translation: translateES
+            },
+            fr: {
+                translation: translateFR
+            },
+            zh: {
+                translation: translateZH
             }
         }
     });

@@ -3,10 +3,12 @@
     "startServerButton": "Start",
     "stopServerButton": "Stop",
     "forceStopServerButton": "Forceer stop",
-    "forceStopDialogTitle": "Bevestiging",
-    "forceStopDialogContent": "Weet je zeker dat je de server geforceerd wilt stoppen? De server wordt niet opgeslagen!",
-    "forceStopDialogActionButton": "Stop forceren",
-    "forceStopDialogCancelButton": "Annuleer",
+    "forceStopModal": {
+      "forceStopDialogTitle": "Bevestiging",
+      "forceStopDialogContent": "Weet je zeker dat je de server geforceerd wilt stoppen? De server wordt niet opgeslagen!",
+      "forceStopDialogActionButton": "Stop forceren",
+      "forceStopDialogCancelButton": "Annuleer"
+    },
     "tabListConsole": "Console",
     "tabListGeneralSettings": "Algemene Instellingen",
     "tabListServerSettings": "Server Instellingen",
@@ -18,6 +20,43 @@
       "stopServer": "Server stoppen...",
       "errorSave": "Fout bij het opslaan van de server:",
       "errorExit": "Fout bij het sluiten van de server:"
+    }
+  },
+
+
+  "serverList": {
+    "noServersFound": "Geen servers gevonden",
+    "unnamedServer": "Naamloze server",
+    "createNewServer": "Nieuwe server maken",
+    "importServer": "TBD"
+  },
+
+
+  "installUpdater": {
+    "installUpdateModal": {
+      "title": "Server installeren/bijwerken",
+      "status": "Status:",
+      "progress": "Voortgang:",
+      "backActionButton": "Ga Terug"
+    },
+    "installUpdateCard": {
+      "title": "Server installeren",
+      "serverPath": "Serverpad",
+      "actionButton": "Server installeren"
+    },
+    "alert": {
+      "noServerPath": "Serverpad moet worden ingesteld op een pad",
+      "failedUpdateInstall": "installatie mislukt:"
+    }
+  },
+
+
+  "updaterModal": {
+    "updaterModalModal": {
+      "title": "Server bijwerken...",
+      "description": "De server start automatisch na de update",
+      "Status": "Status:",
+      "Progress": "Voortgang:"
     }
   }
 }

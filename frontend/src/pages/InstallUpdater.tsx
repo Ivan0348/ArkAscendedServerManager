@@ -16,6 +16,7 @@ import {IconDownload} from "@tabler/icons-react";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
 import {EventsOn} from "../../wailsjs/runtime";
 import {useAlert} from "../components/AlertProvider";
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     setServ: React.Dispatch<React.SetStateAction<server.Server>>
@@ -30,13 +31,15 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
     const [isCompleted, setIsCompleted] = useState(false)
     const [installerModalOpen, setInstallerModalOpen] = useState(false)
     const {addAlert} = useAlert()
+    const { t } = useTranslation();
+
     function onServerPathClicked() {
         OpenDirectoryDialog().then((val) => setServ((p) => ({ ...p, serverPath: val })))
     }
 
     function onStartInstallButtonClicked() {
         if (serv.serverPath == "") {
-            addAlert("Server Path must be set to a path", "warning")
+            addAlert(t('installUpdater.alert.noServerPath'), "warning")
             return
         }
         setInstallerModalOpen(true)
@@ -44,7 +47,7 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
             setAction("failed installing: " + err.message);
             setInstallerModalOpen(false);
             console.error(err);
-            addAlert("Installer failed: " + err, "danger")
+            addAlert(t('installUpdater.alert.failedUpdateInstall') + " " + err, "danger")
         })
     }
 
@@ -54,44 +57,38 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
         EventsOn("appInstalled", (i) => {setIsCompleted(true);  setAction("Done"); setProgress(100)})
     }, []);
 
-
-
-
-
     return (
         <div>
             <Modal open={installerModalOpen} >
                 <ModalDialog>
                     <Typography level="title-md">
-                        Install/Update server
+                        {t('installUpdater.installUpdateModal.title')}
                     </Typography>
                     <Divider className={'mx-2'}/>
                     <Typography fontWeight={700} level="title-md">
-                        Status: {action}
+                        {t('installUpdater.installUpdateModal.status')} {action}
                     </Typography>
                     <Typography fontWeight={700} level="title-md">
-                        Progress:
+                        {t('installUpdater.installUpdateModal.progress')}
                     </Typography>
                     <div className={'w-1/2 mt-4'}>
                         <LinearProgress determinate value={progress} />
                     </div>
                     <Button disabled={!isCompleted} onClick={() => {setInstallerModalOpen(false); setServ(serv); onInstalled()}} className={"w-2/12"}>
-                        Go Back
+                        {t('installUpdater.installUpdateModal.backActionButton')}
                     </Button>
                 </ModalDialog>
             </Modal>
             <Card variant="soft"  className={''}>
                 <Typography level="title-md">
-                    Install server
+                    {t('installUpdater.installUpdateCard.title')}
                 </Typography>
                 <Divider className={'mx-2'}/>
-                <FormLabel>Server Path</FormLabel>
+                <FormLabel>{t('installUpdater.installUpdateCard.serverPath')}</FormLabel>
                 <Input className={'w-1/3'} value={serv.serverPath} required onClick={onServerPathClicked} ></Input>
                 <div className={"text-center"}>
-                    <Button endDecorator={<IconDownload/>} onClick={onStartInstallButtonClicked}>Install server</Button>
+                    <Button endDecorator={<IconDownload/>} onClick={onStartInstallButtonClicked}>{t('installUpdater.installUpdateCard.actionButton')}</Button>
                 </div>
-
-
             </Card>
         </div>
     );

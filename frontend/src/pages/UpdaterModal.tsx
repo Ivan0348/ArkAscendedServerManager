@@ -1,8 +1,7 @@
-import {Button, Divider, LinearProgress, Modal, ModalClose, ModalDialog, Typography} from "@mui/joy";
+import {Divider, LinearProgress, Modal, ModalDialog, Typography} from "@mui/joy";
 import React, {useEffect, useState} from "react";
-import {server} from "../../wailsjs/go/models";
-import {useAlert} from "../components/AlertProvider";
 import {EventsOn} from "../../wailsjs/runtime";
+import { useTranslation } from 'react-i18next';
 
 
 type Props = {
@@ -16,6 +15,7 @@ export function UpdaterModal({onCompleted, open, onClose}: Props) {
     const [action, setAction] = useState("Preparing")
     const [progress, setProgress] = useState(0.00)
     const [isCompleted, setIsCompleted] = useState(false)
+    const { t } = useTranslation();
 
     useEffect(() => {
         EventsOn("installingUpdateAction", (data) => {setAction(data);})
@@ -34,17 +34,17 @@ export function UpdaterModal({onCompleted, open, onClose}: Props) {
         <Modal open={open} onClose={onClose} >
             <ModalDialog>
                 <Typography level="title-md">
-                    Updating server...
+                    {t('updaterModal.updaterModalModal.title')}
                 </Typography>
                 <Typography level="body-sm" >
-                    The server will start automatically after the update
+                    {t('updaterModal.updaterModalModal.description')}
                 </Typography>
                 <Divider className={'mx-2'}/>
                 <Typography fontWeight={700} level="title-md">
-                    Status: {action}
+                    {t('updaterModal.updaterModalModal.Status')} {action}
                 </Typography>
                 <Typography fontWeight={700} level="title-md">
-                    Progress:
+                    {t('updaterModal.updaterModalModal.Progress')}
                 </Typography>
                 <div className={'w-1/2 mt-4'}>
                     <LinearProgress determinate value={progress} />

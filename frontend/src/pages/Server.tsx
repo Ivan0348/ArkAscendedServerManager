@@ -168,18 +168,18 @@ export const Server = ({id, className}: Props) => {
                                 <ModalDialog variant="outlined" role="alertdialog">
                                     <DialogTitle>
                                         <IconAlertCircleFilled/>
-                                        {t('server.forceStopDialogTitle')}
+                                        {t('server.forceStopModal.forceStopDialogTitle')}
                                     </DialogTitle>
                                     <Divider />
                                     <DialogContent>
-                                        <p>{t('server.forceStopDialogContent')}</p>
+                                        <p>{t('server.forceStopModal.forceStopDialogContent')}</p>
                                     </DialogContent>
                                     <DialogActions>
                                         <Button variant="solid" color="danger" onClick={() => {setForceStopModalOpen(false); onServerForceStopButtonClicked()}}>
-                                            {t('server.forceStopDialogActionButton')}
+                                            {t('server.forceStopModal.forceStopDialogActionButton')}
                                         </Button>
                                         <Button variant="plain" color="neutral" onClick={() => setForceStopModalOpen(false)}>
-                                            {t('server.forceStopDialogCancelButton')}
+                                            {t('server.forceStopModal.forceStopDialogCancelButton')}
                                         </Button>
                                     </DialogActions>
                                 </ModalDialog>
