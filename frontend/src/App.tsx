@@ -1,7 +1,6 @@
 import {
-    Alert, AspectRatio,
+    AspectRatio,
     Button,
-    Card,
     DialogActions,
     DialogTitle, Divider,
     Drawer, IconButton, List, ListItem,
@@ -13,7 +12,14 @@ import {HomeButton} from "./components/HomeButton";
 import { ServerList } from "./components/ServerList";
 import React, {useEffect, useState} from "react";
 import {Server} from "./pages/Server";
-import {IconArrowLeft, IconExternalLink, IconFileImport, IconPlus, IconRefresh} from "@tabler/icons-react";
+import {
+    IconArrowLeft,
+    IconExternalLink,
+    IconFileImport,
+    IconInfoCircle,
+    IconPlus,
+    IconRefresh
+} from "@tabler/icons-react";
 import {CreateServer, GetAllServers, GetAllServersFromDir, GetServerDir} from "../wailsjs/go/server/ServerController";
 import {server} from "../wailsjs/go/models";
 import {BrowserOpenURL, EventsOff, EventsOn, LogDebug} from "../wailsjs/runtime";
@@ -125,7 +131,7 @@ function App() {
             </Drawer>
     );
 
-    let mainUi = null;
+    let mainUi: null;
     if (activeServer !== undefined) {
         mainUi = <Server id={activeServer} className={'row-span-5 m-5'}/>
     } else {
