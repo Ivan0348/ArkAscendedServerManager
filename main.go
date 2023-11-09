@@ -22,6 +22,9 @@ var assets embed.FS
 //go:embed wails.json
 var WailsConfigFile []byte
 
+//go:embed KEY
+var KEY string
+
 const (
 	logFilePath = "main.log"
 )
@@ -59,7 +62,7 @@ func main() {
 			c.Startup(ctx)
 			s.Startup(ctx)
 			i.Startup(ctx)
-			h.Startup(ctx)
+			h.Startup(ctx, WailsConfigFile)
 		},
 		Logger:   l,
 		LogLevel: wailsLogger.TRACE,
