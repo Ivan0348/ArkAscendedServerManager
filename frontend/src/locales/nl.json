@@ -9,6 +9,7 @@
       "forceStopDialogActionButton": "Stop forceren",
       "forceStopDialogCancelButton": "Annuleer"
     },
+    "tooltip": "Open de installatiemap van de server",
     "tabListConsole": "Console",
     "tabListGeneralSettings": "Algemene Instellingen",
     "tabListServerSettings": "Server Instellingen",
@@ -59,5 +60,24 @@
       "Status": "Status:",
       "Progress": "Voortgang:"
     }
+  },
+
+
+  "app": {
+    "drawer": {
+      "title": "Serverlijst:",
+      "actionButton": "Nieuwe server maken",
+      "tooltip": {
+        "reloadDisk": "Servers opnieuw laden vanaf schijf",
+        "reloadCache": "Serverlijst verversen vanuit cache",
+        "openServerFolder": "Servermap openen"
+      }
+    },
+    "mainUi": {
+      "title": "Selecteer een server:",
+      "noServers": "Je hebt nog geen servers",
+      "actionButton": "Nieuwe server maken"
+    },
+    "backButton": "Selecteer server"
   }
 }

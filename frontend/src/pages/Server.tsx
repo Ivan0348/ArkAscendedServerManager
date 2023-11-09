@@ -150,7 +150,7 @@ export const Server = ({id, className}: Props) => {
                     <div className={'h-16 flex w-full'}>
                         <div className="flex items-center">
                             <Input value={serv?.serverAlias} onChange={(e) => setServ((p) => ({ ...p, serverAlias: e.target.value }))}/>
-                            <Tooltip title={"Open server install directory"}>
+                            <Tooltip title={t('server.tooltip')}>
                                 <IconButton className="text-lg font-bold ml-2" onClick={() => BrowserOpenURL("file:///" + serv.serverPath)}><IconExternalLink/></IconButton>
                             </Tooltip>
                         </div>

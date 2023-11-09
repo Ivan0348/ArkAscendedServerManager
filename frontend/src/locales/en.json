@@ -9,6 +9,7 @@
       "forceStopDialogActionButton": "Force stop",
       "forceStopDialogCancelButton": "Cancel"
     },
+    "tooltip": "Open server install directory",
     "tabListConsole": "Console",
     "tabListGeneralSettings": "General Settings",
     "tabListServerSettings": "Server Settings",
@@ -59,5 +60,24 @@
       "Status": "Status:",
       "Progress": "Progress:"
     }
+  },
+
+
+  "app": {
+    "drawer": {
+      "title": "Server List:",
+      "actionButton": "Create new server",
+      "tooltip": {
+        "reloadDisk": "Reload servers from disk",
+        "reloadCache": "Refresh server list from cache",
+        "openServerFolder": "Open server folder"
+      }
+    },
+    "mainUi": {
+      "title": "Select a server:",
+      "noServers": "You have no servers yet",
+      "actionButton": "Create new server"
+    },
+    "backButton": "Select server"
   }
 }

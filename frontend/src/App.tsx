@@ -24,7 +24,7 @@ import {server} from "../wailsjs/go/models";
 import {BrowserOpenURL, EventsOff, EventsOn, LogDebug} from "../wailsjs/runtime";
 import {AlertProvider} from "./components/AlertProvider";
 import {LanguageSwitcher} from "./components/LanguageSwitcher";
-import {GetVersion} from "../wailsjs/go/helpers/HelpersController";
+import {useTranslation} from "react-i18next";
 
 enum ServerListType {
     CARD,
@@ -35,6 +35,7 @@ function App() {
     const [activeServer, setActiveServer] = useState<number | undefined>(undefined)
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [servers, setServers] = useState<{[key: number]: server.Server}|null>(null);
+    const { t } = useTranslation();
 
     //This gets all the servers but if one server is changed manually it does not update it!
     function getServers() {
@@ -93,19 +94,19 @@ function App() {
             <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} size="md">
                 <ModalClose/>
 
-                <DialogTitle>Servers:</DialogTitle>
+                <DialogTitle>{t('app.drawer.title')}</DialogTitle>
                 <ServerList serverListType={ServerListType.LIST} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked} />
                 <Divider></Divider>
                 <DialogActions>
                     <List>
                         <ListItem>
-                            <Tooltip title={'Reload servers from disk'}><IconButton  color={'danger'} variant={"solid"}  onClick={() => {getServersFromDir(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
-                            <Tooltip title={'Refresh server list from cache'}><IconButton onClick={() => {getServers(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
-                            <Tooltip title={'Open servers folder'}><IconButton onClick={() => {GetServerDir().then((dir: string) => BrowserOpenURL("file:///" + dir))}}><IconExternalLink/></IconButton></Tooltip>
+                            <Tooltip title={t('app.drawer.tooltip.reloadDisk')}><IconButton  color={'danger'} variant={"solid"}  onClick={() => {getServersFromDir(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
+                            <Tooltip title={t('app.drawer.tooltip.reloadCache')}><IconButton onClick={() => {getServers(); setActiveServer(undefined)}}><IconRefresh/></IconButton></Tooltip>
+                            <Tooltip title={t('app.drawer.tooltip.openServerFolder')}><IconButton onClick={() => {GetServerDir().then((dir: string) => BrowserOpenURL("file:///" + dir))}}><IconExternalLink/></IconButton></Tooltip>
                         </ListItem>
                         <ListItem>
                             <ListItemButton onClick={handleCreateNewServerClicked}>
-                                <IconPlus/> Create new server
+                                <IconPlus/> {t('app.drawer.actionButton')}
                             </ListItemButton>
                         </ListItem>
                     </List>
@@ -120,7 +121,7 @@ function App() {
         if(servers !== null && Object.keys(servers).length > 0) {
             mainUi = (
                 <div className={'row-span-5 m-5'}>
-                    <h2>Select a server:</h2>
+                    <h2>{t('app.mainUi.title')}</h2>
                     <ServerList serverListType={ServerListType.CARD} servers={servers} setActiveServer={setActiveServer} setDrawerOpen={setDrawerOpen} handleCreateNewServerClicked={handleCreateNewServerClicked} />
                 </div>
             )
@@ -128,8 +129,8 @@ function App() {
         else {
             mainUi = (
                 <div className={'row-span-5 m-5'}>
-                    <h2>You have no servers yet!</h2>
-                    <Button onClick={() => handleCreateNewServerClicked()}><IconPlus/> Create new server</Button>
+                    <h2>{t('app.mainUi.noServers')}</h2>
+                    <Button onClick={() => handleCreateNewServerClicked()}><IconPlus/>{t('app.mainUi.actionButton')}</Button>
                 </div>
             )
         }
@@ -141,7 +142,7 @@ function App() {
                 <div className={'h-16 flex'}>
                     <div className={'text-lg font-bold ml-8 my-auto'}>
                         <Button color={'neutral'} variant={'soft'} onClick={() => setDrawerOpen(true)}>
-                            <IconArrowLeft/> Select server
+                            <IconArrowLeft/> {t('app.backButton')}
                         </Button>
                     </div>
                     <div className={'ml-auto my-auto mr-8 gap-2 flex'}>
