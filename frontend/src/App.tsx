@@ -131,7 +131,7 @@ function App() {
             </Drawer>
     );
 
-    let mainUi: null;
+    let mainUi;
     if (activeServer !== undefined) {
         mainUi = <Server id={activeServer} className={'row-span-5 m-5'}/>
     } else {
