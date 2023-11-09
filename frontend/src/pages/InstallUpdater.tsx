@@ -12,10 +12,11 @@ import {
     Typography
 } from "@mui/joy";
 import {OpenDirectoryDialog} from "../../wailsjs/go/helpers/HelpersController";
-import {IconDownload} from "@tabler/icons-react";
+import {IconDownload, IconTrash} from "@tabler/icons-react";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
 import {EventsOn} from "../../wailsjs/runtime";
 import {useAlert} from "../components/AlertProvider";
+import {DeleteProfile} from "../../wailsjs/go/server/ServerController";
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -49,6 +50,10 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
             console.error(err);
             addAlert(t('installUpdater.alert.failedUpdateInstall') + " " + err, "danger")
         })
+    }
+
+    function onCancelButtonClicked() {
+        DeleteProfile(serv.id).then(() => {addAlert("Deleted profile", "success"); setTimeout(() => {location.reload()}, 500) }).catch((err) => {console.error(err); addAlert(err, "danger")})
     }
 
     useEffect(() => {
@@ -88,6 +93,7 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
                 <Input className={'w-1/3'} value={serv.serverPath} required onClick={onServerPathClicked} ></Input>
                 <div className={"text-center"}>
                     <Button endDecorator={<IconDownload/>} onClick={onStartInstallButtonClicked}>{t('installUpdater.installUpdateCard.actionButton')}</Button>
+                    <Button endDecorator={<IconTrash/>} onClick={onCancelButtonClicked} className={"mx-5"} color={"danger"}>Delete profile</Button>
                 </div>
             </Card>
         </div>
