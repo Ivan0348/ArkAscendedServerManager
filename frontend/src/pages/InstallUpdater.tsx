@@ -35,7 +35,7 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
     const { t } = useTranslation();
 
     function onServerPathClicked() {
-        OpenDirectoryDialog().then((val) => setServ((p) => ({ ...p, serverPath: val })))
+        OpenDirectoryDialog().then((val) => setServ((p) => ({ ...p, serverPath: val, convertValues: p.convertValues })))
     }
 
     function onStartInstallButtonClicked() {
@@ -59,7 +59,7 @@ export function InstallUpdater({setServ, serv, onInstalled}: Props) {
     useEffect(() => {
         EventsOn("installingUpdateAction", (data) => {setAction(data);})
         EventsOn("installingUpdateProgress", (data) => {setProgress(data);})
-        EventsOn("appInstalled", (i) => {setIsCompleted(true);  setAction("Done"); setProgress(100)})
+        EventsOn("appInstalled", () => {setIsCompleted(true);  setAction("Done"); setProgress(100)})
     }, []);
 
     return (
