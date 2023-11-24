@@ -30,7 +30,6 @@ import {IconAlertCircleFilled, IconExternalLink} from "@tabler/icons-react";
 import {Console} from "./server/Console";
 import {UpdaterModal} from "./UpdaterModal";
 import {InstallUpdateVerify} from "../../wailsjs/go/installer/InstallerController";
-import {SendRconCommand} from "../../wailsjs/go/helpers/HelpersController";
 import {Settings} from "./server/Settings";
 import { useTranslation } from 'react-i18next';
 
