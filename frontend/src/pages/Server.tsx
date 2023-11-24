@@ -130,7 +130,7 @@ export const Server = ({id, className}: Props) => {
 
     function onServerStopButtonClicked() {
         addAlert(t('server.alert.stopServer'), "neutral")
-        StopServer(serv.id).then(() => addAlert("Stopped server", "success")).catch((err) => addAlert("error stopping server: " + err, "danger"));
+        StopServer(serv.id).then(() => addAlert(t('server.alert.stoppedServer'), "success")).catch((err) => addAlert( t('server.alert.errorStoppingServer')+ " " + err, "danger"));
 
     }
 
@@ -139,7 +139,7 @@ export const Server = ({id, className}: Props) => {
     }
 
     function refreshServerStatus() {
-        GetServerStatus(serv.id).catch((reason) => {console.error("serverstatus: " + reason); addAlert(reason, "danger")}).then((s) => {
+        GetServerStatus(serv.id).catch((reason) => {console.error(t('server.alert.serverStatus') + " " + reason); addAlert(reason, "danger")}).then((s) => {
             if (typeof s === "boolean") {
                 setServerStatus(s)
             }
@@ -192,22 +192,21 @@ export const Server = ({id, className}: Props) => {
                                 <ModalDialog variant="outlined" role="alertdialog">
                                     <DialogTitle>
                                         <IconAlertCircleFilled/>
-                                        Confirmation
+                                        {t('server.startModal.startDialogTitle')}
                                     </DialogTitle>
                                     <Divider />
                                     <DialogContent>
-                                        Are you sure you want to start the server? This action will overwrite ini files in the server directory!<br/>
+                                        <p>{t('server.startModal.startDialogContent')}</p>
                                     </DialogContent>
                                     <DialogActions>
                                         <Button variant="solid" color="success" onClick={() => {setStartModalOpen(false); onServerStartButtonClicked()}}>
-                                            Start
+                                            {t('server.startModal.startDialogActionButton')}
                                         </Button>
-
                                         <Button color="primary" onClick={() => setStartModalOpen(false)}>
-                                            Cancel
+                                            {t('server.startModal.startDialogCancelButton')}
                                         </Button>
                                         <Button variant="plain" color="neutral" onClick={() => BrowserOpenURL("https://github.com/JensvandeWiel/ArkAscendedServerManager/wiki/Custom-Configuration")}>
-                                            More Info
+                                            {t('server.startModal.startDialogMoreInfoButton')}
                                         </Button>
 
                                     </DialogActions>

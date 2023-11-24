@@ -9,6 +9,13 @@
       "forceStopDialogActionButton": "Force stop",
       "forceStopDialogCancelButton": "Cancel"
     },
+    "startModal": {
+      "startDialogTitle": "Confirmation",
+      "startDialogContent": "Are you sure you want to start the server? This action will overwrite ini files in the server directory!",
+      "startDialogActionButton": "Start",
+      "startDialogCancelButton": "Cancel",
+      "startDialogMoreInfoButton": "More Info"
+    },
     "tooltip": "Open server install directory",
     "tabListConsole": "Console",
     "tabListGeneralSettings": "General Settings",
@@ -19,8 +26,9 @@
       "noServerPath": "Server Path must be set to a path",
       "failedUpdateInstall": "failed installing:",
       "stopServer": "Stopping server...",
-      "errorSave": "Error sending save command:",
-      "errorExit": "Error sending exit command:"
+      "stoppedServer": "Server stopped",
+      "errorStoppingServer": "Error stopping server:",
+      "serverStatus": "Server status:"
     }
   },
 

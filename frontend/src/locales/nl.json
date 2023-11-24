@@ -9,6 +9,13 @@
       "forceStopDialogActionButton": "Stop forceren",
       "forceStopDialogCancelButton": "Annuleer"
     },
+    "startModal": {
+      "startDialogTitle": "Bevestiging",
+      "startDialogContent": "Weet je zeker dat je de server wilt starten? Deze actie overschrijft de ini-bestanden in de servermap!",
+      "startDialogActionButton": "Start",
+      "startDialogCancelButton": "Annuleren",
+      "startDialogMoreInfoButton": "Meer informatie"
+    },
     "tooltip": "Open de installatiemap van de server",
     "tabListConsole": "Console",
     "tabListGeneralSettings": "Algemene Instellingen",
@@ -19,8 +26,9 @@
       "noServerPath": "Serverpad moet worden ingesteld op een pad",
       "failedUpdateInstall": "Installatie mislukt",
       "stopServer": "Server stoppen...",
-      "errorSave": "Fout bij het opslaan van de server:",
-      "errorExit": "Fout bij het sluiten van de server:"
+      "stoppedServer": "Server gestopt",
+      "errorStoppingServer": "Fout bij het stoppen van de server:",
+      "serverStatus": "Serverstatus:"
     }
   },
 
