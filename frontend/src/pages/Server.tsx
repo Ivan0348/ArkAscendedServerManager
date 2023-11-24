@@ -54,7 +54,6 @@ export const Server = ({id, className}: Props) => {
     const [serverStatus, setServerStatus] = useState(false)
     const [forceStopModalOpen, setForceStopModalOpen] = useState(false)
     const [startModalOpen, setStartModalOpen] = useState(false)
-
     const [updaterModalOpen, setUpdaterModalOpen] = useState(false)
     const {addAlert} = useAlert()
     const { t } = useTranslation();
